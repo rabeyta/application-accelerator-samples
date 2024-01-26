@@ -16,6 +16,8 @@ different types of tests which can be utilized to verify different parts of an a
 
 ## Prerequisites
 
+
+
 In order to further develop this application the following tools needs to be setup:
 - Java Development Kit (https://bell-sw.com/)
 - Visual Studio Code or IntelliJ IDEA as Integrated Development Environment (IDE)
