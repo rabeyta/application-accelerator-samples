@@ -5,6 +5,7 @@ on:
 
 jobs:
   list-tests:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,14 +25,12 @@ jobs:
         test: ${{ fromJson(needs.list-tests.outputs.testnames) }}
     services:
       accelerator:
-        image: dev.registry.tanzu.vmware.com/app-accelerator/acc-engine:latest
+        image: ghcr.io/app-accelerator-build/acc-engine:latest
         credentials:
-          username: robot$${{secrets.TANZUNET_ROBOT}}
-          password: ${{secrets.TANZUNET_PASS}}
+          username: ${{secrets.GHCR_USER}}
+          password: ${{secrets.GHCR_TOKEN}}
         ports:
           - 8888:8080
-
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -44,6 +43,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+      - name: Install xpath script
+        run: sudo apt-get install -y libxml-xpath-perl
       - name: Wait for Engine Container
         uses: ifaxity/wait-on-action@v1
         with:
